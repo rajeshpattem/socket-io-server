@@ -28,6 +28,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("submitDeviceNames", (data) => {
+    console.log(
+      "User " + data.userId + " submitted device names:",
+      data.deviceNames
+    );
     const username = data.userId;
     const deviceNames = data.deviceNames;
     const socketId = users.get(username);
