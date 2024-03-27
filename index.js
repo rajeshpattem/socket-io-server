@@ -28,6 +28,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("submitDeviceNames", (data) => {
+    console.log("Users Map ", users);
     console.log(
       "User " + data.userId + " submitted device names:",
       data.deviceNames
@@ -36,6 +37,12 @@ io.on("connection", (socket) => {
     const deviceNames = data.deviceNames;
     const socketId = users.get(username);
 
+    for (const [key, value] of users.entries()) {
+      if (key === username) {
+        socketId = value;
+        break;
+      }
+    }
     if (socketId) {
       io.to(socketId).emit("deviceNamesUpdated", deviceNames);
       console.log(`Device names sent to ${username}`);
