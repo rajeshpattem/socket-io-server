@@ -20,7 +20,6 @@ io.on("connection", (socket) => {
     console.log("Username received:", username);
     users.set(username, socket.id);
     console.log("Users:", users);
-    //socket.emit("username-received", username);
   });
 
   socket.on("user-message", (message) => {
@@ -28,26 +27,17 @@ io.on("connection", (socket) => {
   });
 
   socket.on("submitDeviceNames", (data) => {
+    const { userId, deviceNames } = data;
     console.log("Users Map ", users);
-    console.log(
-      "User " + data.userId + " submitted device names:",
-      data.deviceNames
-    );
-    const username = data.userId;
-    const deviceNames = data.deviceNames;
-    const socketId = users.get(username);
+    console.log(`User ${userId} submitted device names:`, deviceNames);
 
-    for (const [key, value] of users.entries()) {
-      if (key === username) {
-        socketId = value;
-        break;
-      }
-    }
+    const socketId = users.get(userId);
+
     if (socketId) {
       io.to(socketId).emit("deviceNamesUpdated", deviceNames);
-      console.log(`Device names sent to ${username}`);
+      console.log(`Device names sent to ${userId}`);
     } else {
-      console.log(`User ${username} not found`);
+      console.log(`User ${userId} not found in map`);
     }
   });
 

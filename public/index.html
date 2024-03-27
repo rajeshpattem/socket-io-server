@@ -32,6 +32,10 @@
         console.log(message);
         socket.emit("user-message", message);
         socket.emit("username",message);
+        // socket.emit("submitDeviceNames",{
+        //   "userId":"1234",
+        //   "deviceNames": ['device1','device2']
+        // })
       });
     </script>
   </body>
